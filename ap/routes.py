@@ -1,9 +1,9 @@
 
-# app/routes.py
+# ap/routes.py
 
 
 from flask import render_template
-from app import app
+from ap import app
 
 
 @app.route("/")

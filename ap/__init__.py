@@ -1,5 +1,5 @@
 
-# __init__.py
+# ap/__init__.py
 
 
 from flask import Flask
@@ -15,9 +15,13 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-#from app import routes, models
+from ap import routes, models
 
-if __name__ == "__main__":
-    
-    app.run(debug=True)
+
+@app.shell_context_processor
+def make_shell_context():
+    return {
+        "db": db,
+        "Post": models.Post
+    }
 
