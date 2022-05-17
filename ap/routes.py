@@ -70,3 +70,22 @@ def edit_post(post_id):
     return render_template("editpostform.html", form=form, errors=errors)
 
 
+@app.route("/draftpage/", methods=["GET", "POST"])
+@login_required
+def listdrafts():
+    draft_posts = Post.query.filter_by(is_published=False).order_by(Post.pub_date.desc())
+
+    return render_template("draftpage.html", all_posts=draft_posts)
+
+
+@app.route("/deletepost/<int:post_id>", methods=["POST"])
+@login_required
+def delete_post(post_id):
+    post = Post.query.filter_by(id=post_id).first_or_404()
+    if request.method == 'POST':
+        del_post(post_id)
+        flash(f"'You deleted post {post_id}', 'success'")
+        return redirect(url_for("index"))
+    return render_template("deletepostform.html")
+
+
